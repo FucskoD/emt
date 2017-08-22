@@ -1,0 +1,21 @@
+.redditContainer{
+	margin: 10px;
+	padding: 10px; 
+	height: 200px;
+	overflow: auto;
+	border: 1px solid lightgray;
+	}
+.orderContainer{
+	margin: 10px;
+	padding: 10px; 
+	height: 200px;
+	overflow: auto;
+	border: 1px solid lightgray;
+	}
+.row{
+	
+}	
+
+.orders{
+	clear:both;
+}
