@@ -2,6 +2,7 @@
   "name": "app",
   "version": "0.0.1",
   "dependencies": {
+    "angular-fixed-table-header": "^0.2.1",
     "handsontable": "^0.34.0"
   }
 }

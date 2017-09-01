@@ -10,5 +10,6 @@ import com.emt.entity.Order;
 //it's not a simple CrudRepository!
 public interface OrderRepository extends PagingAndSortingRepository<Order, Integer> {
 	List<Order> findByLocationId(String locationId);
+	List<Order> findByLocationIdStartsWith(String locationId);
 	
 }

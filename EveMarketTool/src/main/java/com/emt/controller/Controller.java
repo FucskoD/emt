@@ -50,7 +50,7 @@ public class Controller {
 	}
 		
 	//don't need to pass RequestParams, ?page and size parameters
-	//automatically resolved by spring, and a Pageable instance is created
+	//automatically resolved by spring, and a Pageable instance is created (pageingandsortinrepository)
 	@RequestMapping(value ="/", method = RequestMethod.GET, produces =MediaType.APPLICATION_JSON_VALUE)	
 	public @ResponseBody Page<Order> list (Pageable pageable){
 		Page<Order> orders = orderRepository.findAll(pageable);

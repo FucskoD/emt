@@ -1,68 +1,225 @@
 <!DOCTYPE html>
 <html ng-app='myApp'>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">        
-		<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular.js"></script>
-        <script src="app/resources/js/ng-infinite-scroll.js"></script>
-        <script src="app/resources/js/app.js" type="text/javascript"></script>
-		<link rel="stylesheet" type="text/css" href="/app/resources/css/style.css">	
-		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">	
-		<!-- Angular Material Library -->
-		<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
-		<!-- Angular Material requires Angular.js Libraries -->		
-		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
+<head>
+    <title>EvE market tool</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular.js"></script>
+    <script src="app/resources/js/ng-infinite-scroll.js"></script>
+    <script src="app/resources/js/app.js" type="text/javascript"></script>
+    <!--<script type="text/javascript" src="app/node_modules/angular-fixed-table-header/src/fixed-table-header.min.js"></script>-->
+    <link rel="https://rawgit.com/jraadt/fixed-table-header/master/src/fixed-table-header.css">
+    <link rel="stylesheet" type="text/css" href="/app/resources/css/style.css">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
+    <script src="https://rawgit.com/daniel-nagy/md-data-table/master/dist/md-data-table.js"></script>
+    <link rel="stylesheet" href="https://rawgit.com/daniel-nagy/md-data-table/master/dist/md-data-table.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ag-grid/2.3.5/ag-grid.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/ag-grid/2.3.5/ag-grid.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/ag-grid/2.3.5/theme-fresh.min.css">
+</head>
+<body>
 
-    </head>
-	
+<md-toolbar class="md-whiteframe-1dp">
+    <div class="md-toolbar-tools">
+        <div class="md-title">EvE Market Tool</div>
+    </div>
+</md-toolbar>
+<md-tabs md-dynamic-height-tab md-border-bottom md-center-tabs md-stretch-tabs md-swipe-content>
+    <md-tab label="one">
+        <md-content class="md-padding">
+            <div ng-controller='DemoController'>
+                <div class="col-sm-4 min-padding">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search term" data-ng-model="searchTerm">
+                    </div>
+                </div>
+                <div class="redditContainer">
+                    <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='1' infinite-scroll-container='".redditContainer"' infinite-scroll-parent='true'>
+                        <div class="row" ng-repeat='item in  itemsFilter = (reddit.items | filter:searchTerm | limitTo:reddit.numberToDisplay)'>
+                            <span class='score'>{{item.score}}</span>
+                            <span class='title'>
+                        <a ng-href='{{item.url}}' target='_blank'>{{item.title}}</a>
+                      </span>
+                            <small>by {{item.author}} -
+                                <a ng-href='http://reddit.com{{item.permalink}}' target='_blank'>{{item.num_comments}} comments</a>
+                            </small>
+                            <div style='clear: both;'></div>
+                        </div>
+                    </div>
 
-	
-<div ng-controller='DemoController'> 	
-    <div class="col-sm-4 min-padding">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search term" data-ng-model="searchTerm">
-        </div>
-    </div>
-<div class="redditContainer">
-<div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='1' infinite-scroll-container='".redditContainer"' infinite-scroll-parent='true'>
-    <div class="row" ng-repeat='item in  itemsFilter = (reddit.items | filter:searchTerm | limitTo:reddit.numberToDisplay)'>
-      <span class='score'>{{item.score}}</span>
-      <span class='title'>
-        <a ng-href='{{item.url}}' target='_blank'>{{item.title}}</a>
-      </span>
-      <small>by {{item.author}} -
-        <a ng-href='http://reddit.com{{item.permalink}}' target='_blank'>{{item.num_comments}} comments</a>
-      </small>	  
-      <div style='clear: both;'></div>
-    </div>	    	
-  </div>
-  
-</div>
-<md-progress-circular class= "md-warn" ng-show="reddit.busy" md-mode="indeterminate"></md-progress-circular>
-<!-- <md-progress-linear  class = "md-warn" ng-show="reddit.busy" md-mode="query"></md-progress-linear>
-<md-progress-linear  ng-show="reddit.busy" md-mode="indeterminate"></md-progress-linear> -->
-  
-</div>
+                </div>
+                <md-progress-circular class= "md-warn" ng-show="reddit.busy" md-mode="indeterminate"></md-progress-circular>
 
-<div ng-controller='OrderController'>
-    <div class="col-sm-4 min-padding">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search term" data-ng-model="searchTerm">
-        </div>
-    </div>
-<div class="orderContainer">
-<div infinite-scroll='order.nextPage()' infinite-scroll-disabled='order.busy' infinite-scroll-distance='5' infinite-scroll-container='".orderContainer"' infinite-scroll-parent='true'>
-    <div class="row" ng-repeat='order in  ordersFilter = (order.items | filter:searchTerm)'>
-      <span class='orderId'>{{order.orderId}}</span>
-      <span class='price'>{{order.price}}</span>     
-      <div style='clear: both;'></div>
-    </div>
-</div>
-</div>
-<md-progress-circular class= "md-warn" ng-show="order.busy" md-mode="indeterminate"></md-progress-circular>
-</div>
+                <!-- <md-progress-linear  class = "md-warn" ng-show="reddit.busy" md-mode="query"></md-progress-linear>
+                <md-progress-linear  ng-show="reddit.busy" md-mode="indeterminate"></md-progress-linear> -->
+
+            </div>
+        </md-content>
+    </md-tab>
+    <md-tab label ="two">
+        <md-content class="md-padding">
+            <div ng-controller='OrderController'>
+                <div class="col-sm-4 min-padding">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search term" data-ng-model="searchTerm">
+                    </div>
+                </div>
+                <div class="orderContainer">
+                    <div infinite-scroll='order.nextPage()' infinite-scroll-disabled='order.busy' infinite-scroll-distance='5' infinite-scroll-container='".orderContainer"' infinite-scroll-parent='true'>
+                        <div class="row" ng-repeat='order in  ordersFilter = (order.items | filter:searchTerm)'>
+                            <span class="tablerow">{{order.orderId}}</span>
+                            <span class='tablerow'>{{order.price}}</span>
+                            <div style='clear: both;'></div>
+                        </div>
+                    </div>
+                </div>
+                <md-progress-linear  class = "md-warn" ng-show="order.busy" md-mode="query"></md-progress-linear>
+                <!--<md-progress-circular class= "md-warn" ng-show="order.busy" md-mode="indeterminate"></md-progress-circular>-->
+            </div>
+        </md-content>
+    </md-tab>
+    <md-tab label="three">
+        <md-content layout="column" flex ng-controller="nutritionController" class="md-padding">
+
+            <md-card>
+
+                <md-toolbar class="md-table-toolbar md-default" ng-hide="selected.length">
+                    <div class="md-toolbar-tools">
+                        <span>Nutrition</span>
+                    </div>
+                </md-toolbar>
+
+                <md-toolbar class="md-table-toolbar alternate" ng-show="selected.length">
+                    <div class="md-toolbar-tools">
+                        <span>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</span>
+                    </div>
+                </md-toolbar>
+
+                <md-table-container>
+                    <table md-table md-row-select ng-model="selected" md-progress="promise">
+                        <thead fix-head md-head md-order="query.order">
+                        <tr md-row>
+                            <th md-column md-order-by="name"><span>Dessert (100g serving)</span></th>
+                            <th md-column md-order-by="type"><span>Type</span></th>
+                            <th md-column md-numeric md-order-by="calories.value" md-desc><span>Calories</span></th>
+                            <th md-column md-numeric md-order-by="fat.value"><span>Fat (g)</span></th>
+                            <th md-column md-numeric md-order-by="carbs.value"><span>Carbs (g)</span></th>
+                            <th md-column md-numeric md-order-by="protein.value"><span>Protein (g)</span></th>
+                            <th md-column md-numeric md-order-by="sodium.value" hide-gt-xs show-gt-md><span>Sodium (mg)</span></th>
+                            <th md-column md-numeric md-order-by="calcium.value" hide-gt-xs show-gt-lg><span>Calcium (%)</span></th>
+                            <th md-column md-numeric md-order-by="iron.value" hide-gt-xs show-gt-lg><span>Iron (%)</span></th>
+                            <th md-column md-order-by="comment">
+                                <md-icon>comments</md-icon>
+                                <span>Comments</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody md-body>
+                        <tr md-row md-select="dessert" md-auto-select ng-repeat="dessert in desserts.data | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+                            <td md-cell>{{dessert.name}}</td>
+                            <td md-cell>
+                                <md-select ng-model="dessert.type" placeholder="Other">
+                                    <md-option ng-value="type" ng-repeat="type in getTypes()">{{type}}</md-option>
+                                </md-select>
+                            </td>
+                            <td md-cell>{{dessert.calories.value}}</td>
+                            <td md-cell>{{dessert.fat.value | number: 2}}</td>
+                            <td md-cell>{{dessert.carbs.value}}</td>
+                            <td md-cell>{{dessert.protein.value | number: 2}}</td>
+                            <td md-cell hide-gt-xs show-gt-md>{{dessert.sodium.value}}</td>
+                            <td md-cell hide-gt-xs show-gt-lg>{{dessert.calcium.value}}%</td>
+                            <td md-cell hide-gt-xs show-gt-lg>{{dessert.iron.value}}%</td>
+                            <td md-cell ng-click="editComment($event, dessert)" ng-class="{'md-placeholder': !dessert.comment}">
+                                {{dessert.comment || 'Add a comment'}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+
+                <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{desserts.count}}" md-page-select></md-table-pagination>
+
+            </md-card>
+        </md-content>
+    </md-tab>
+    <md-tab label="four">
+        <md-content layout="column" flex ng-controller="AppCtrl as ctrl"  ng-cloak>
+            <md-card>
+                <md-toolbar class="md-table-toolbar md-default" ng-hide="selected.length">
+                    <div class="md-toolbar-tools">
+                        <span>Orders</span>
+                    </div>
+                </md-toolbar>
+
+                <md-toolbar class="md-table-toolbar alternate" ng-show="selected.length">
+                    <div class="md-toolbar-tools">
+                        <span>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</span>
+                    </div>
+                </md-toolbar>
+
+                <div class="col-sm-4 min-padding">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search term" data-ng-model="searchTerm">
+                    </div>
+                </div>
+
+                <md-virtual-repeat-container ng-style='listStyle' fix-head>
+                        <table md-table md-row-select ng-model="selected" md-progress="promise">
+                            <thead md-head md-order="query2.order">
+                            <tr md-row>
+                                <th md-column md-numeric md-order-by="orderId"><span>Order Id</span></th>
+                                <th md-column md-numeric md-order-by="price"><span>Price</span></th>
+                                <th md-column md-numeric md-order-by="duration"><span>Duration</span></th>
+                                <th md-column md-order-by="isBuyOrder"><span>Is Buy Item</span></th>
+                                <th md-column md-numeric md-order-by="issued"><span>Issued</span></th>
+                                <th md-column md-numeric md-order-by="locationId"><span>Location Id</span></th>
+                                <th md-column md-numeric md-order-by="minVolume"><span>Min Volume</span></th>
+                                <th md-column md-numeric md-order-by="range"><span>Range</span></th>
+                                <th md-column md-numeric md-order-by="typeId"><span>Type Id</span></th>
+                                <th md-column md-numeric md-order-by="volumeRemain"><span>Volume remain</span></th>
+                                <th md-column md-numeric md-order-by="volumeTotal"><span>Volume total</span></th>
+                            </tr>
+                            </thead>
+                            <tbody md-body>
+                            <tr md-row md-select="item" md-auto-select md-virtual-repeat="item in ctrl.infiniteItems" md-on-demand="">
+                                <td md-cell>{{item.orderId}}</td>
+                                <td md-cell>{{item.price}}</td>
+                                <td md-cell>{{item.duration}}</td>
+                                <td md-cell>{{item.isBuyOrder}}</td>
+                                <td md-cell>{{item.issued}}</td>
+                                <td md-cell>{{item.locationId}}</td>
+                                <td md-cell>{{item.minVolume}}</td>
+                                <td md-cell>{{item.range}}</td>
+                                <td md-cell>{{item.typeId}}</td>
+                                <td md-cell>{{item.volumeRemain}}</td>
+                                <td md-cell>{{item.volumeTotal}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                </md-virtual-repeat-container>
+            </md-card>
+        </md-content>
+    </md-tab>
+    <md-tab label="five">
+            <md-card>
+                <div ng-controller="GridController">
+                    <div ag-grid="gridOptions" class="ag-fresh" style="height: 500px;"></div>
+                </div>
+            </md-card>
+    </md-tab>
+</md-tabs>
+
+</body>
+
 </html>
+
+
