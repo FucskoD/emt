@@ -19,24 +19,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.AbstractJsonpResponseBodyAdvice;
 
-import com.emt.entity.Order;
-import com.emt.repository.OrderRepository;
+import com.emt.entity.Line;
+import com.emt.repository.LineRepository;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class Controller {
-	private OrderRepository orderRepository;
+	private LineRepository lineRepository;
 	
 	@Autowired
-	public void setRepository(OrderRepository orderRepository) {
-		this.orderRepository = orderRepository;
+	public void setRepository(LineRepository lineRepository) {
+		this.lineRepository = lineRepository;
 	}
-	@RequestMapping("/orders")
-	public @ResponseBody List<Order>allOrders() {
-		List<Order> orderList = new ArrayList<Order>();
-		orderRepository.findAll().forEach(orderList::add);
+	@RequestMapping("/lines")
+	public @ResponseBody List<Line>alllines() {
+		List<Line> lineList = new ArrayList<Line>();
+		lineRepository.findAll().forEach(lineList::add);
 		
-		return orderList;
+		return lineList;
 	}
 	
     @ControllerAdvice
@@ -46,29 +46,25 @@ public class Controller {
         }
     }
 	
-	@RequestMapping(value="/{locationId:[\\d]+}", method = RequestMethod.GET)
-	//@RequestMapping("/{locationId:[\\d]+}")
-	//@ResponseBody -- not needed with @RestController annotation
-	public @ResponseBody List<Order> ordersByLocationId(@PathVariable long locationId) {
-		List<Order> orderList = orderRepository.findByLocationId(((Long)locationId).toString());
-		return orderList;
+	@RequestMapping(value="/{stationid:[\\d]+}", method = RequestMethod.GET)
+	public @ResponseBody List<Line> linesByLocationId(@PathVariable Integer stationid) {
+		List<Line> lineList = lineRepository.findByStationid((stationid));
+		return lineList;
 	}
-		
-	//don't need to pass RequestParams, ?page and size parameters
-	//automatically resolved by spring, and a Pageable instance is created (pageingandsortinrepository)
+	
 	@RequestMapping(value ="/", method = RequestMethod.GET, produces =MediaType.APPLICATION_JSON_VALUE)	
-	public @ResponseBody Page<Order> list (Pageable pageable){
-		Page<Order> orders = orderRepository.findAll(pageable);
-		return orders;
+	public @ResponseBody Page<Line> list (Pageable pageable){
+		Page<Line> lines = lineRepository.findAll(pageable);
+		return lines;
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public ResponseEntity<Order> update(@RequestBody Order order){
-		if(order != null && orderRepository.exists(Integer.valueOf(order.getOrderId()))) {
-			orderRepository.save(order);
-			return new ResponseEntity<Order>(order, HttpStatus.OK);
+	public ResponseEntity<Line> update(@RequestBody Line line){
+		if(line != null && lineRepository.exists(Integer.valueOf(line.getStationid()))) {
+			lineRepository.save(line);
+			return new ResponseEntity<Line>(line, HttpStatus.OK);
 		}
-		return new ResponseEntity<Order>(order, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Line>(line, HttpStatus.BAD_REQUEST);
 		
 
 		

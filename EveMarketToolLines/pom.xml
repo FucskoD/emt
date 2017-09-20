@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.emt</groupId>
-	<artifactId>EveMarketTool</artifactId>
+	<artifactId>EveMarketToolLines</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>EveMarketTool</name>
+	<name>EveMarketToolLines</name>
 	<description>Demo</description>
 
 	<parent>
@@ -55,7 +55,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<finalName>EveMarketTool</finalName>
+		<finalName>EveMarketToolLines</finalName>
 	</build>
 
 

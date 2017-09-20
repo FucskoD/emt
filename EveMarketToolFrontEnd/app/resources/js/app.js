@@ -400,16 +400,16 @@ myApp.controller("GridController", function ($scope, $http) {
     var columnDefs = [
 
         {headerName: "Order Id", field: "orderId", width: 150, suppressMenu: true, suppressFilter: true},
-        {headerName: "Price", field: "price", width: 150, suppressMenu: true, suppressFilter: true},
-        {headerName: "Duration", field: "duration", width: 150, suppressMenu: true, suppressFilter: true},
-        {headerName: "Is Buy Order", field: "isBuyOrder", width: 150, suppressMenu: true, suppressFilter: true},
-        {headerName: "Issued", field: "issued", width: 150, suppressMenu: true, suppressFilter: true},
-        {headerName: "Location Id", field: "locationId", width: 150, suppressMenu: true, suppressFilter: true},
-        {headerName: "Min volume", field: "minVolume", width: 150, suppressMenu: true, suppressFilter: true},
-        {headerName: "Range", field: "range", width: 150, suppressMenu: true, suppressFilter: true},
-        {headerName: "Type Id", field: "typeId", width: 150, suppressMenu: true, suppressFilter: true},
-        {headerName: "Volume remain", field: "volumeRemain", width: 150, suppressMenu: true, suppressFilter: true},
-        {headerName: "Volume total", field: "volumeTotal", width: 150, suppressMenu: true, suppressFilter: true}
+        {headerName: "Price", field: "price", width: 150, suppressMenu: true, suppressFilter: true, editable: true},
+        {headerName: "Duration", field: "duration", width: 150, suppressMenu: true, suppressFilter: true, editable: true},
+        {headerName: "Is Buy Order", field: "isBuyOrder", width: 150, suppressMenu: true, suppressFilter: true, editable: true},
+        {headerName: "Issued", field: "issued", width: 150, suppressMenu: true, suppressFilter: true, editable: true},
+        {headerName: "Location Id", field: "locationId", width: 150, suppressMenu: true, suppressFilter: true, editable: true},
+        {headerName: "Min volume", field: "minVolume", width: 150, suppressMenu: true, suppressFilter: true, editable: true},
+        {headerName: "Range", field: "range", width: 150, suppressMenu: true, suppressFilter: true, editable: true},
+        {headerName: "Type Id", field: "typeId", width: 150, suppressMenu: true, suppressFilter: true, editable: true},
+        {headerName: "Volume remain", field: "volumeRemain", width: 150, suppressMenu: true, suppressFilter: true, editable: true},
+        {headerName: "Volume total", field: "volumeTotal", width: 150, suppressMenu: true, suppressFilter: true, editable: true}
     ];
 
     $scope.gridOptions = {
@@ -425,6 +425,11 @@ myApp.controller("GridController", function ($scope, $http) {
         //onAfterFilterChanged: afterFilterChanged,
         //onAfterSortChanged: afterSortChanged,
         columnDefs: columnDefs,
+        defaultColDef: {
+        	editable: true,
+        	width: 100
+    	},    
+    	stopEditingWhenGridLosesFocus: true,    	
         onReady: _init
     };
     function _init() {
@@ -448,11 +453,11 @@ myApp.controller("GridController", function ($scope, $http) {
                 var dataSource = {
                     rowModelType: 'infinite',
                     rowCount: null, // behave as infinite scroll
-                    pageSize: 900,
-                    overflowSize: 100,
+                    pageSize: 1000,
+                    overflowSize: 10,
                     maxConcurrentRequests: 2,
                     //maxPagesInCache: 20,
-                    //maxBlocksInCache: 2,
+                    //maxBlocksInCache: 2,                    
                     getRows: function _getRows(params) {
                         console.log('asking for ' + params.startRow + ' to ' + params.endRow);
                         currentPage+=1;
