@@ -1,0 +1,32 @@
+<div>
+    <h1>{{appTitle}}</h1>
+    <!--<div>Thanks Tutorilas Point </div>
+    <div *ngIf = 'appStatus'>This div is based on appStatus!</div>
+    <button (click) ='clicked()'>Click</button>
+    <div *ngFor = 'let lst of appList'>
+        <ul>
+            <li>{{lst.ID}}</li>
+            <li>{{lst.Name}}</li>
+        </ul>
+    </div>-->
+    
+    <ag-grid-angular #agGrid style = 'width: 100%; height: 600px;' class='ag-fresh'
+                     [gridOptions]='gridOptions'
+                     [columnDefs]='columnDefs'
+                     virtualPaging = 'true'>
+    </ag-grid-angular>
+
+    <ag-grid-angular #agGrid style = 'width: 100%; height: 600px;' class='ag-fresh'
+                    [gridOptions]='gridOptionsLines'
+                    [columnDefs]='columnDefs'
+                    virtualPaging = 'true'>
+    </ag-grid-angular>
+
+    <div *ngFor = 'let orders of iorders'>
+            <ul>
+                <li>{{orders.orderId}}</li>
+                <li>{{orders.price}}</li>
+                <li>{{orders.issued | date:'MM/dd/yy'}}</li>
+            </ul>
+        </div>
+</div>
